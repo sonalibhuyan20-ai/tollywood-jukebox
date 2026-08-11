@@ -23,6 +23,10 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+const SPOTIFY_URL =
+  "https://open.spotify.com/playlist/5AzQwHGapByXOKvX5pEEZN?si=VWIWra-wR9WaXg3lud__ag";
+const YTM_URL = "https://music.youtube.com/playlist?list=PLFJmmpGcirtU&si=Ij2dPsEkMT9aqxWv";
+
 function fmt(s: number) {
   if (!s || !isFinite(s)) return "0:00";
   const m = Math.floor(s / 60);
@@ -129,125 +133,148 @@ function Index() {
     }
   };
 
+  const [clock, setClock] = useState("");
+  const [online, setOnline] = useState(21);
+
+  useEffect(() => {
+    const tick = () =>
+      setClock(
+        new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }).toLowerCase(),
+      );
+    tick();
+    const id = window.setInterval(tick, 20000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setOnline((n) => Math.max(8, Math.min(48, n + (Math.random() < 0.5 ? -1 : 1))));
+    }, 7000);
+    return () => window.clearInterval(id);
+  }, []);
+
   const song = songs[index]!;
   const pct = duration ? Math.min(100, (current / duration) * 100) : 0;
 
   return (
-    <main className="relative min-h-screen font-sans text-cream">
+    <main className="relative h-screen w-full overflow-hidden font-sans text-cream">
       <div id="yt-audio-host" className="pointer-events-none absolute h-0 w-0 overflow-hidden" />
 
-      <section className="relative min-h-screen overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(160deg,var(--color-mustard),var(--color-terracotta)_55%,var(--color-teal-faded))]" />
-        <img
-          src="/hero.jpg"
-          alt="Vintage Telugu neighborhood barbershop with film posters and a radio"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(20,12,4,0.55),rgba(20,12,4,0.35)_35%,rgba(12,20,22,0.88))]" />
+      <div className="absolute inset-0 bg-[linear-gradient(160deg,var(--color-mustard),var(--color-terracotta)_55%,var(--color-teal-faded))]" />
+      <img
+        src="/hero.jpg"
+        alt="Vintage Telugu neighborhood barbershop with film posters and a radio"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(20,12,4,0.35),rgba(20,12,4,0.05)_35%,rgba(12,10,8,0.55))]" />
 
-        <div className="relative z-10 flex min-h-screen flex-col items-center px-5 pt-16 pb-40 sm:pb-16">
-          <span className="rounded-full border border-mustard/50 bg-black/35 px-4 py-1.5 text-[11px] font-medium tracking-[0.18em] text-mustard backdrop-blur-sm sm:text-xs">
-            🎵 EST. 1995 · BARBERSHOP JUKEBOX
-          </span>
+      <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-4 py-3 text-[13px] sm:px-6 sm:py-4">
+        <span className="text-cream/90 drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]">{clock}</span>
 
-          <h1 className="mt-8 text-center font-display text-5xl leading-[0.95] font-black tracking-tight drop-shadow-[0_4px_18px_rgba(0,0,0,0.6)] sm:text-7xl lg:text-8xl">
-            <span className="text-mustard">TOLLYWOOD</span>
-            <span className="text-cream">SALOON</span>
-          </h1>
+        <span className="flex items-center gap-2 text-cream/90 drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]">
+          <span className="h-2 w-2 rounded-full bg-[oklch(0.72_0.19_150)]" />
+          <span className="font-medium">{online}</span>
+          <span className="text-cream/70">online</span>
+        </span>
 
-          <p className="mt-4 max-w-xl text-center text-sm text-cream/85 sm:text-base">
-            90s &amp; 2000s Telugu bangers that played at every neighborhood saloon
-          </p>
+        <nav className="flex items-center gap-3 sm:gap-5">
+          <a
+            href={SPOTIFY_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1.5 text-cream/90 transition-colors hover:text-mustard drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]"
+          >
+            <SpotifyIcon />
+            <span className="hidden sm:inline">Spotify</span>
+            <ArrowIcon />
+          </a>
+          <a
+            href={YTM_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1.5 text-cream/90 transition-colors hover:text-mustard drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]"
+          >
+            <YtIcon />
+            <span className="hidden sm:inline">YT Music</span>
+            <ArrowIcon />
+          </a>
+        </nav>
+      </header>
 
-          <div className="mt-6 flex w-56 items-center gap-3">
-            <span className="h-px flex-1 bg-cream/40" />
-            <ScissorsIcon />
-            <span className="h-px flex-1 bg-cream/40" />
+      <div className="absolute inset-x-0 bottom-6 z-20 flex justify-center px-3 sm:bottom-10">
+        <div className="flex w-full max-w-xl items-center gap-4 rounded-full border border-cream/10 bg-black/45 py-2.5 pr-5 pl-2.5 backdrop-blur-md">
+          <div
+            className={`grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[radial-gradient(circle,var(--color-terracotta)_0%,#241a14_70%)] ring-1 ring-mustard/40 ${playing ? "animate-spin [animation-duration:6s]" : ""}`}
+          >
+            <span className="h-2.5 w-2.5 rounded-full bg-cream/80" />
           </div>
 
-          <div className="flex-1" />
-
-          <div className="fixed inset-x-0 bottom-0 z-20 sm:static sm:w-full sm:max-w-xl">
-            <div className="border-t border-cream/15 bg-[#1b1410]/95 p-4 shadow-[0_-8px_30px_rgba(0,0,0,0.45)] backdrop-blur-md sm:rounded-3xl sm:border sm:p-6 sm:shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
-              <div className="flex items-center gap-4">
-                <div
-                  className={`grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[radial-gradient(circle,var(--color-terracotta)_0%,#241a14_70%)] ring-2 ring-mustard/50 sm:h-16 sm:w-16 ${playing ? "animate-spin [animation-duration:6s]" : ""}`}
-                >
-                  <span className="h-3 w-3 rounded-full bg-cream/80" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[10px] font-semibold tracking-[0.22em] text-mustard">
-                    NOW PLAYING
-                  </p>
-                  <p className="truncate font-display text-lg font-bold text-cream sm:text-2xl">
-                    {song.title}
-                  </p>
-                  <p className="truncate text-xs text-cream/60 sm:text-sm">
-                    {song.movie} · {song.year}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-cream/15">
-                  <div
-                    className="h-full rounded-full bg-mustard transition-[width] duration-1000 ease-linear"
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-                <div className="mt-1.5 flex justify-between text-[10px] text-cream/50">
-                  <span>{fmt(current)}</span>
-                  <span>{fmt(duration)}</span>
-                </div>
-              </div>
-
-              <div className="mt-3 flex items-center justify-center gap-6">
-                <button
-                  onClick={() => go(-1)}
-                  aria-label="Previous track"
-                  className="text-cream/70 transition-colors hover:text-mustard"
-                >
-                  <SkipIcon dir="prev" />
-                </button>
-                <button
-                  onClick={toggle}
-                  aria-label={playing ? "Pause" : "Play"}
-                  className="grid h-14 w-14 place-items-center rounded-full bg-mustard text-[#1b1410] shadow-lg transition-transform hover:scale-105 active:scale-95"
-                >
-                  {playing ? <PauseIcon /> : <PlayIcon />}
-                </button>
-                <button
-                  onClick={() => go(1)}
-                  aria-label="Next track"
-                  className="text-cream/70 transition-colors hover:text-mustard"
-                >
-                  <SkipIcon dir="next" />
-                </button>
-              </div>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold text-cream">{song.title}</p>
+            <p className="truncate text-xs text-cream/60">
+              {song.movie} · {song.year}
+            </p>
+            <div className="mt-2 h-[3px] w-full overflow-hidden rounded-full bg-cream/20">
+              <div
+                className="h-full rounded-full bg-cream/85 transition-[width] duration-1000 ease-linear"
+                style={{ width: `${pct}%` }}
+              />
             </div>
+            <p className="mt-1 text-[10px] text-cream/45">
+              {fmt(current)} / {fmt(duration)}
+            </p>
           </div>
 
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <a
-              href="#"
-              className="rounded-full border border-cream/30 bg-black/30 px-5 py-2 text-xs font-medium text-cream/90 backdrop-blur-sm transition-colors hover:border-mustard hover:text-mustard"
+          <div className="flex shrink-0 items-center gap-3">
+            <button
+              onClick={() => go(-1)}
+              aria-label="Previous track"
+              className="text-cream/70 transition-colors hover:text-cream"
             >
-              Listen on Spotify
-            </a>
-            <a
-              href="#"
-              className="rounded-full border border-cream/30 bg-black/30 px-5 py-2 text-xs font-medium text-cream/90 backdrop-blur-sm transition-colors hover:border-mustard hover:text-mustard"
+              <SkipIcon dir="prev" />
+            </button>
+            <button
+              onClick={toggle}
+              aria-label={playing ? "Pause" : "Play"}
+              className="grid h-11 w-11 place-items-center rounded-full bg-cream text-[#1b1410] transition-transform hover:scale-105 active:scale-95"
             >
-              Listen on YT Music
-            </a>
+              {playing ? <PauseIcon /> : <PlayIcon />}
+            </button>
+            <button
+              onClick={() => go(1)}
+              aria-label="Next track"
+              className="text-cream/70 transition-colors hover:text-cream"
+            >
+              <SkipIcon dir="next" />
+            </button>
           </div>
-
-          <footer className="mt-8 text-center text-[11px] text-cream/50">
-            Songs via YouTube · Full playlists on Spotify &amp; YT Music
-          </footer>
         </div>
-      </section>
+      </div>
     </main>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+      <path d="M7 17 17 7M9 7h8v8" />
+    </svg>
+  );
+}
+
+function SpotifyIcon() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.5 14.4a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.33-1.46c4.53-1.03 8.46-.58 11.6 1.34.35.22.46.68.31 1.03Zm1.34-2.94a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.96-1.4a.94.94 0 1 1-.55-1.79c4.36-1.32 9.78-.68 13.49 1.6.44.27.58.85.31 1.28Zm.12-3.06C14.09 8.1 7.9 7.89 4.4 8.95a1.12 1.12 0 1 1-.65-2.15c4.02-1.22 10.85-.98 15.13 1.56a1.12 1.12 0 1 1-1.14 1.94Z" />
+    </svg>
+  );
+}
+
+function YtIcon() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18.2A8.2 8.2 0 1 1 20.2 12 8.2 8.2 0 0 1 12 20.2ZM9.8 7.9l6.6 4.1-6.6 4.1V7.9Z" />
+    </svg>
   );
 }
 
