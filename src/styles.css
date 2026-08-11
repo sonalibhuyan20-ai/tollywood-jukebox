@@ -4,6 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-mustard: oklch(0.8 0.14 85);
+  --color-terracotta: oklch(0.58 0.14 40);
+  --color-teal-faded: oklch(0.5 0.06 200);
+  --color-cream: oklch(0.96 0.03 90);
+}
+
 /*
  * Design system definition.
  *
