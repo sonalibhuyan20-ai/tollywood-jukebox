@@ -310,22 +310,3 @@ function SkipIcon({ dir }: { dir: "prev" | "next" }) {
     </svg>
   );
 }
-
-function ScissorsIcon() {
-  return (
-    <svg
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      className="text-mustard"
-      aria-hidden="true"
-    >
-      <circle cx="6" cy="6" r="2.5" />
-      <circle cx="6" cy="18" r="2.5" />
-      <path d="M8 7.5 20 18M8 16.5 20 6" />
-    </svg>
-  );
-}
