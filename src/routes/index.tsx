@@ -174,7 +174,7 @@ function Index() {
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(20,12,4,0.35),rgba(20,12,4,0.05)_35%,rgba(12,10,8,0.55))]" />
 
-      <h1 className="pointer-events-none absolute inset-x-0 top-20 z-10 px-6 text-center font-display text-4xl leading-[0.95] font-black tracking-tight text-cream drop-shadow-[0_6px_24px_rgba(0,0,0,0.75)] sm:top-24 sm:text-6xl lg:text-7xl">
+      <h1 className="pointer-events-none absolute inset-x-0 top-12 z-10 px-6 text-center font-display text-4xl leading-[0.95] font-black tracking-tight text-cream drop-shadow-[0_6px_24px_rgba(0,0,0,0.75)] sm:top-14 sm:text-6xl lg:text-7xl">
         TOLLYWOOD
         <br />
         SALOON
