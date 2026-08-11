@@ -27,6 +27,7 @@ export const Route = createFileRoute("/")({
 const SPOTIFY_URL =
   "https://open.spotify.com/playlist/5AzQwHGapByXOKvX5pEEZN?si=VWIWra-wR9WaXg3lud__ag";
 const YTM_URL = "https://music.youtube.com/playlist?list=PLFJmmpGcirtU&si=Ij2dPsEkMT9aqxWv";
+const BMC_URL = "https://buymeacoffee.com/sonali.bhuyan";
 
 function fmt(s: number) {
   if (!s || !isFinite(s)) return "0:00";
@@ -210,6 +211,16 @@ function Index() {
             <span className="hidden sm:inline">YT Music</span>
             <ArrowIcon />
           </a>
+          <a
+            href={BMC_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1.5 text-cream/90 transition-colors hover:text-mustard drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]"
+          >
+            <CoffeeIcon />
+            <span className="hidden sm:inline">Buy me a coffee</span>
+            <ArrowIcon />
+          </a>
         </nav>
       </header>
 
@@ -286,6 +297,16 @@ function YtIcon() {
   return (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18.2A8.2 8.2 0 1 1 20.2 12 8.2 8.2 0 0 1 12 20.2ZM9.8 7.9l6.6 4.1-6.6 4.1V7.9Z" />
+    </svg>
+  );
+}
+
+function CoffeeIcon() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Z" />
+      <path d="M17 9h1.5a2.5 2.5 0 0 1 0 5H17" />
+      <path d="M6 2v3M10 2v3M14 2v3" />
     </svg>
   );
 }
