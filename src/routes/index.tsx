@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import songs from "../data/songs";
+import heroMobile from "../assets/hero-mobile.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -164,9 +165,20 @@ function Index() {
       <img
         src="/hero.jpg"
         alt="Vintage Telugu neighborhood barbershop with film posters and a radio"
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 hidden h-full w-full object-cover sm:block"
+      />
+      <img
+        src={heroMobile.url}
+        alt="Vintage Telugu neighborhood barbershop with film posters and a radio"
+        className="absolute inset-0 h-full w-full object-cover sm:hidden"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(20,12,4,0.35),rgba(20,12,4,0.05)_35%,rgba(12,10,8,0.55))]" />
+
+      <h1 className="pointer-events-none absolute inset-x-0 top-1/2 z-10 -translate-y-1/2 px-6 text-center font-display text-4xl leading-[0.95] font-black tracking-tight text-cream drop-shadow-[0_6px_24px_rgba(0,0,0,0.75)] sm:text-6xl lg:text-7xl">
+        TOLLYWOOD
+        <br />
+        SALOON
+      </h1>
 
       <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-4 py-3 text-[13px] sm:px-6 sm:py-4">
         <span className="text-cream/90 drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]">{clock}</span>
