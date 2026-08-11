@@ -51,7 +51,7 @@ function Index() {
       playerRef.current = new (window as any).YT.Player("yt-audio-host", {
         height: "0",
         width: "0",
-        videoId: songs[0].videoId,
+        videoId: songs[0]!.videoId,
         playerVars: { playsinline: 1, controls: 0 },
         events: {
           onReady: () => {
@@ -64,7 +64,7 @@ function Index() {
             if (e.data === YT.PlayerState.ENDED) {
               const next = (indexRef.current + 1) % songs.length;
               setIndex(next);
-              playerRef.current?.loadVideoById(songs[next].videoId);
+              playerRef.current?.loadVideoById(songs[next]!.videoId);
               setPlaying(true);
             }
           },
@@ -124,12 +124,12 @@ function Index() {
     setDuration(0);
     const p = playerRef.current;
     if (p && readyRef.current) {
-      p.loadVideoById(songs[next].videoId);
+      p.loadVideoById(songs[next]!.videoId);
       setPlaying(true);
     }
   };
 
-  const song = songs[index];
+  const song = songs[index]!;
   const pct = duration ? Math.min(100, (current / duration) * 100) : 0;
 
   return (
