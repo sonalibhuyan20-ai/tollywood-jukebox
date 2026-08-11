@@ -99,6 +99,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
+    scripts: [
+      { src: "https://www.googletagmanager.com/gtag/js?id=G-5M8WB3MLS0", async: true },
+      {
+        children:
+          "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-5M8WB3MLS0');",
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
